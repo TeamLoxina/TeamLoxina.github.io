@@ -2,105 +2,177 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Team Loxina</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Mistral Navigator</title>
     <style>
+        :root {
+            --primary-color: #5865F2;
+            --secondary-color: #4752C4;
+            --background-color: #f8f9fa;
+            --text-color: #333333;
+            --border-color: #e9ecef;
+            --input-background: #f1f3f4;
+            --button-color: var(--primary-color);
+        }
+
         body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            background-color: white;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
-            padding: 20px;
+            padding: 0;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            height: 100vh;
+            overflow: hidden;
         }
 
-        h1 {
-            font-size: 3.5em;
-            margin: 20px 0;
-            color: black;
-        }
-
-        .logos-container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            grid-template-rows: 1fr 1fr;
-            gap: 20px;
-            justify-items: center;
-            align-items: center;
-            margin: 40px auto;
-            width: 60%;
-        }
-
-        .logo {
-            width: 120px;
-            height: 120px;
-        }
-
-        .logo img {
-            width: 100%;
-            height: auto;
-        }
-
-        h2 {
-            font-size: 2em;
-            color: black;
-            margin: 40px 0 20px 0;
-        }
-
-        .buttons {
+        .app-container {
             display: flex;
             flex-direction: column;
-            align-items: center;
-            gap: 15px;
+            height: 100vh;
+            max-width: 100%;
             margin: 0 auto;
-            width: fit-content;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
 
-        .btn {
-            display: inline-block;
-            padding: 12px 24px;
-            background-color: #0078d4;
+        .app-header {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            background-color: var(--primary-color);
             color: white;
-            text-decoration: none;
-            border-radius: 5px;
-            font-size: 1.2em;
-            width: 250px;
-            text-align: center;
+            gap: 8px;
         }
 
-        .btn:hover {
-            background-color: #005a9e;
+        .nav-button {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: none;
+            background-color: rgba(255, 255, 255, 0.2);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            cursor: pointer;
+        }
+
+        .url-bar {
+            flex: 1;
+            display: flex;
+            height: 40px;
+            background-color: white;
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        #url-input {
+            flex: 1;
+            padding: 0 15px;
+            border: none;
+            outline: none;
+            font-size: 14px;
+        }
+
+        #go-button {
+            width: 40px;
+            height: 40px;
+            border: none;
+            background-color: var(--button-color);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        .browser-area {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        #browser-frame {
+            flex: 1;
+            width: 100%;
+            border: none;
+            background-color: white;
         }
     </style>
+    <script src="https://cse.google.com/cse.js?cx=0283b1feb3dc743f5" async></script>
 </head>
 <body>
-    <h1>Team Loxina</h1>
+    <div class="app-container">
+        <!-- En-tête avec barre d'URL -->
+        <header class="app-header">
+            <button class="nav-button" onclick="goBack()">←</button>
+            <button class="nav-button" onclick="goForward()">→</button>
+            <button class="nav-button" onclick="refreshPage()">↻</button>
 
-    <div class="logos-container">
-        <!-- Logo LC en haut à gauche -->
-        <div class="logo">
-            <img src="https://yt3.ggpht.com/jZiABmi6QKLAHh3omH0HYP4c79FzYGMJNCg8zmA3cpCIKVVhsiZQnWc1EJj-Nyj659_o2LzIU7w=s176-c-k-c0x00ffffff-no-rj-mo" alt="Logo LC">
+            <div class="url-bar">
+                <input type="text" id="url-input" placeholder="https://example.com" onkeypress="handleUrlInput(event)">
+                <button id="go-button" onclick="loadUrl()">→</button>
+            </div>
+        </header>
+
+        <!-- Zone de recherche Google CSE -->
+        <div class="search-container">
+            <div class="gcse-search"></div>
         </div>
-        <!-- Discord en haut à droite -->
-        <div class="logo">
-            <img src="https://www.telecom-sudparis.eu/wp-content/uploads/2025/06/discord.jpg" alt="Discord">
-        </div>
-        <!-- YouTube au centre -->
-        <div class="logo">
-            <img src="https://yt3.googleusercontent.com/ytc/AIdro_kpqRAzyp7R4-yLQjSdkcXUzttrIwITvhWN2hPDjSww-XM=s900-c-k-c0x00ffffff-no-rj" alt="YouTube">
-        </div>
-        <!-- Twitch en bas à droite -->
-        <div class="logo">
-            <img src="https://yt3.googleusercontent.com/BK6t9ABThYng7A2KgDb6x2XQDl1oKGos2yKmXX0_hEG6n8YQlmIU_M6sXoRDxJAQGp4VItyTOQ=s900-c-k-c0x00ffffff-no-rj" alt="Twitch">
+
+        <!-- Zone principale pour afficher les pages web -->
+        <div class="browser-area">
+            <iframe id="browser-frame" src="about:blank" frameborder="0"></iframe>
         </div>
     </div>
 
-    <h2>Suivez-nous :</h2>
+    <script>
+        // Fonction pour charger une URL dans l'iframe
+        function loadUrl() {
+            const urlInput = document.getElementById("url-input");
+            let url = urlInput.value.trim();
 
-    <div class="buttons">
-        <a href="https://www.twitch.tv/teamloxina" class="btn">Twitch: Team Loxina</a>
-        <a href="https://www.twitch.tv/ceynoxxx" class="btn">Twitch: Ceymox</a>
-        <a href="https://www.youtube.com/@TeamLoxina" class="btn">YouTube: Team Loxina</a>
-        <a href="https://discord.gg/eZPCSCGa" class="btn">Discord</a>
-    </div>
+            if (!url) return;
+
+            // Ajoute "https://" si l'URL ne commence pas par http:// ou https://
+            if (!url.startsWith("http://") && !url.startsWith("https://")) {
+                url = `https://${url}`;
+            }
+
+            document.getElementById("browser-frame").src = url;
+        }
+
+        // Gestion de la touche Entrée dans la barre d'URL
+        function handleUrlInput(event) {
+            if (event.key === "Enter") {
+                loadUrl();
+            }
+        }
+
+        // Fonctions de navigation
+        function goBack() {
+            const frame = document.getElementById("browser-frame");
+            if (frame.contentWindow.history.length > 1) {
+                frame.contentWindow.history.back();
+            }
+        }
+
+        function goForward() {
+            const frame = document.getElementById("browser-frame");
+            frame.contentWindow.history.forward();
+        }
+
+        function refreshPage() {
+            const frame = document.getElementById("browser-frame");
+            frame.contentWindow.location.reload();
+        }
+
+        // Charger Google par défaut au démarrage
+        window.onload = function() {
+            document.getElementById("browser-frame").src = "https://www.google.com";
+        };
+    </script>
 </body>
 </html>
